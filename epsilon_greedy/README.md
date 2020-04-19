@@ -1,7 +1,9 @@
 
 # Epsilon Greedy Strategy Theory
 
-![Epsilon Greedy Strategy Theory P1](https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p1.jpeg =100)
+![Epsilon Greedy Strategy Theory P1](https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p1.jpeg)
+
+<img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p1.jpeg" width="48">
 
 ![Epsilon Greedy Strategy Theory P2](https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p2.jpeg)
 
