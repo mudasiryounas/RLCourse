@@ -1,11 +1,11 @@
 
 # Epsilon Greedy Strategy Theory
 
-
+<p align="center">
 <img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p1.jpeg" width="400">
 <img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p2.jpeg" width="400">
 <img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p3.jpeg" width="400">
-
+</p>
 
 ## Output 
 
