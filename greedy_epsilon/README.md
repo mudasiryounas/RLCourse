@@ -1,15 +1,8 @@
 
+# Greedy Epsilon Strategy Theory
 
-![Generic Repository Pattern](https://github.com/Mudasir8/Generic-Repository-Pattern-with-Implementaions-of-EF-and-FluentNHibernate/blob/master/CRUD-using-the-Repository-Pattern-in-MVC-1.jpg)
+![Greedy Epsilon Strategy Theory P1](https://github.com/mudasiryounas/RLCourse/blob/master/greedy_epsilon/theory/p1.jpeg)
 
-# Generic-Repository-Pattern-with-Implementations-of-EF-and-FluentNHibernate
+![Greedy Epsilon Strategy Theory P2](https://github.com/mudasiryounas/RLCourse/blob/master/greedy_epsilon/theory/p2.jpeg)
 
-Generic Repository Pattern
-
-EF Implementation
-
-Fluent NHibernate Implementation
-
-AutoFac DI
-
-Angular SPA
+![Greedy Epsilon Strategy Theory P3](https://github.com/mudasiryounas/RLCourse/blob/master/greedy_epsilon/theory/p3.jpeg)
