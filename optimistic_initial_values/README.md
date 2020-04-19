@@ -7,12 +7,13 @@
 
 ## Output
 ```
-mean estimate for machine 0: 0.625
-mean estimate for machine 1: 0.6666666666666666
-mean estimate for machine 2: 0.7555844936391872
-total reward earned:  7541.0
-overall win rate:  0.7541
-number of times each machine selected [8.0, 12.0, 9983.0]
+original machine probabilities: [0.2, 0.5, 0.75]
+mean estimate for machine 0: 0.7333333333333333
+mean estimate for machine 1: 0.7391304347826086
+mean estimate for machine 2: 0.7538384345208254
+total reward earned:  7525.0
+overall win rate:  0.7525
+number of times each machine selected [15.0, 23.0, 9965.0]
 ```
 
 look at the mean estimate values they are not 0.75 (which is our tru mean) but they are close to it, so our algorithm is greedy and it does not go anymore.

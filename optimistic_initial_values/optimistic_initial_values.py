@@ -36,6 +36,7 @@ def experiment():
         # update this machine estimated mean
         selected_machine.update(x)
 
+    print(f"original machine probabilities: {MACHINE_PROBABILITIES}")
     for i, m in enumerate(machines):
         print(f"mean estimate for machine {i}: {m.p_estimated_mean}")
 

@@ -52,6 +52,7 @@ def experiment():
         # update the distribution for machine whose arm we just pulled
         m.update(x)
 
+    print(f"original machine probabilities: {MACHINE_PROBABILITIES}")
     for i, m in enumerate(machines):
         print(f"mean estimate for machine {i}: {m.p_estimated_mean}")
 
