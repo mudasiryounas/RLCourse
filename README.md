@@ -23,7 +23,7 @@ num_of_times_exploited:  9018
 num times selected optimal machine:  9358
 ```
 
-![Epsilon Greedy Strategy Theory P4](https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p4.jpeg)
+![Epsilon Greedy Strategy Theory P4](https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p4.png)
 
 
 
