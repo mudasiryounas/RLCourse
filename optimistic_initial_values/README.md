@@ -1,9 +1,9 @@
 
 # Optimistic Initial Values Strategy Theory
 
-![Optimistic Initial Values Strategy Theory P1](https://github.com/mudasiryounas/RLCourse/blob/master/optimistic_initial_values/theory/p1.jpeg)
+<p align="center"><img src="https://github.com/mudasiryounas/RLCourse/blob/master/optimistic_initial_values/theory/p1.jpeg" width="450"></p>
+<p align="center"><img src="https://github.com/mudasiryounas/RLCourse/blob/master/optimistic_initial_values/theory/p2.jpeg" width="450"></p>
 
-![Optimistic Initial Values Strategy Theory P2](https://github.com/mudasiryounas/RLCourse/blob/master/optimistic_initial_values/theory/p2.jpeg)
 
 ## Output
 ```
@@ -20,4 +20,4 @@ look at the mean estimate values they are not 0.75 (which is our true mean) but 
 
 if we look at the number of times each machine is selected [15.0, 23.0, 9965.0], we can understand that as soon as their estimate mean value goes below 0.75 they are no longer selected and hence our last machine which is optimal, is select rest of the times, i.e 9983 times. 
 
-![Optimistic Initial Values Strategy Theory P3](https://github.com/mudasiryounas/RLCourse/blob/master/optimistic_initial_values/theory/p3.png)
+<p align="center"><img src="https://github.com/mudasiryounas/RLCourse/blob/master/optimistic_initial_values/theory/p3.png" width="450"></p>
