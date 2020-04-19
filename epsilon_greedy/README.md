@@ -1,13 +1,10 @@
 
 # Epsilon Greedy Strategy Theory
 
-![Epsilon Greedy Strategy Theory P1](https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p1.jpeg)
 
-<img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p1.jpeg" width="48">
-
-![Epsilon Greedy Strategy Theory P2](https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p2.jpeg)
-
-![Epsilon Greedy Strategy Theory P3](https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p3.jpeg)
+<img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p1.jpeg" width="400">
+<img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p2.jpeg" width="400">
+<img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p3.jpeg" width="400">
 
 
 ## Output 
@@ -25,4 +22,4 @@ num_of_times_exploited:  9018
 num times selected optimal machine:  9358
 ```
 
-![Epsilon Greedy Strategy Theory P4](https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p4.png)
+<img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p4.png" width="400">
