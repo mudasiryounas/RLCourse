@@ -21,8 +21,8 @@ class Machine:
         self.p_estimated_mean = ((self.N - 1) * self.p_estimated_mean + x) / self.N  # mean success rate
 
 
-def experiment():
-    machines = [Machine(m) for m in MACHINE_PROBABILITIES]
+def run_experiment():
+    machines = [Machine(p) for p in MACHINE_PROBABILITIES]
     rewards = np.zeros(NUM_TRIALS)
 
     for i in range(NUM_TRIALS):
@@ -54,4 +54,4 @@ def experiment():
 
 
 if __name__ == '__main__':
-    experiment()
+    run_experiment()
