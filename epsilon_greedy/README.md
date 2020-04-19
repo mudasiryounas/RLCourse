@@ -1,11 +1,10 @@
 
 # Epsilon Greedy Strategy Theory
 
-<p align="center">
-<img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p1.jpeg" width="400">
-<img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p2.jpeg" width="400">
-<img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p3.jpeg" width="400">
-</p>
+<p align="center"><img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p1.jpeg" width="450"></p>
+<p align="center"><img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p2.jpeg" width="450"></p>
+<p align="center"><img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p3.jpeg" width="450"></p>
+
 
 ## Output 
 
@@ -22,4 +21,4 @@ num_of_times_exploited:  9018
 num times selected optimal machine:  9358
 ```
 
-<img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p4.png" width="400">
+<p align="center"><img src="https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p4.png" width="450"></p>
