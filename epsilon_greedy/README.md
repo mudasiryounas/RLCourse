@@ -8,7 +8,7 @@
 ![Epsilon Greedy Strategy Theory P3](https://github.com/mudasiryounas/RLCourse/blob/master/epsilon_greedy/theory/p3.jpeg)
 
 
-## Result 
+## Output 
 
 ```
 Optimal machine number:  2

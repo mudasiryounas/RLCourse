@@ -5,7 +5,7 @@
 
 ![Optimistic Initial Values Strategy Theory P2](https://github.com/mudasiryounas/RLCourse/blob/master/optimistic_initial_values/theory/p2.jpeg)
 
-
+## Output
 ```
 mean estimate for machine 0: 0.625
 mean estimate for machine 1: 0.6666666666666666
@@ -19,4 +19,4 @@ look at the mean estimate values they are not 0.75 (which is our tru mean) but t
 
 if we look at the number of times each machine is selected, we can understand that as soon as their estimate mean value goes below 0.75 they are no longer selected and hence our last machine ewhich is optimal is remained and select 9983 times. 
 
-![Optimistic Initial Values Strategy Theory P4](https://github.com/mudasiryounas/RLCourse/blob/master/optimistic_initial_values/theory/p3.jpeg)
+![Optimistic Initial Values Strategy Theory P3](https://github.com/mudasiryounas/RLCourse/blob/master/optimistic_initial_values/theory/p3.png)
