@@ -291,7 +291,6 @@ def play_game(agent, human, env):
     current_player = None  # p1 will start the game always
     # loop until the game is over
     continue_game = True
-    total_game_played = 0
     while continue_game:
         if current_player == agent:
             current_player = human
@@ -310,18 +309,10 @@ def play_game(agent, human, env):
             env.draw_board()  # draw updated board again
 
         if env.game_over():
-            total_game_played += 1
             continue_game = False
-            print(f"Game number: {total_game_played}")
-            if env.winner == env.x:
-                print(f"Agent won the game")
-            elif env.winner == env.o:
-                print(f"You won the game")
-            else:
-                print(f"Game is draw")
 
 
-def main():
+def main(should_learn_before_playing):
     print("Starting game...")
     print("Agent -> x")
     print("Human -> o")
@@ -329,19 +320,41 @@ def main():
     # initialize empty environment
     env = Environment()
 
+    state_winner_triples = get_state_hash_and_winner(env)
+
     # initialize agent as p1
     agent = Agent()
     agent.set_symbol(env.x)
-    state_winner_triples = get_state_hash_and_winner(env)
     agent.initialize_V(env, state_winner_triples)
+
+    if should_learn_before_playing:
+        # to learn
+        agent_to_learn = Agent()
+        agent_to_learn.set_symbol(env.o)
+        agent_to_learn.initialize_V(env, state_winner_triples)
+
+        for i in range(10000):
+            if i % 200 == 0:
+                print(i)
+            play_game(agent, agent_to_learn, Environment())
+        print("Agent has learned by playing with itself...")
 
     # play agent vs human
     human = Human()
     human.set_symbol(env.o)
-
+    total_game_played = 0
     while True:
-        new_env = Environment()
-        play_game(agent, human, env=new_env)
+        env = Environment()
+        play_game(agent, human, env=env)
+
+        total_game_played += 1
+        print(f"Game number: {total_game_played}")
+        if env.winner == env.x:
+            print(f"Agent won the game")
+        elif env.winner == env.o:
+            print(f"You won the game")
+        else:
+            print(f"Game is draw")
 
         answer = input("Do you want to play again? [y/n]: ")
         if answer and answer.lower()[0] == 'n':
@@ -349,4 +362,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(should_learn_before_playing=True)
