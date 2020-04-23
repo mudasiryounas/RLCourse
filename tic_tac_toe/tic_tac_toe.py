@@ -13,10 +13,10 @@ class Agent:
         # if agent wins, V(s) = 1
         # if agent loses or draw V(s) = 0
         # otherwise V(s) = 0.5
-        V = np.zeros(env.num_states)
+        V = np.zeros(env.max_states)
         for state, winner, ended in state_winner_triples:
             if ended:
-                if winner == env.x:
+                if winner == env.x:  # x is our agent
                     state_value = 1
                 else:
                     state_value = 0
@@ -36,7 +36,7 @@ class Agent:
         self.state_history = []
 
     def choose_random_action(self, env):
-        print("Taking random action...")
+        print("Agent is taking random action...")
         empty_moves = env.get_empty_moves()
         # select randomly from possible moves
         # this will generate any random integer based on given possible moves e.g lts say there are 3 possible moves so it will give us 0, 1 or 2
@@ -45,7 +45,7 @@ class Agent:
         return next_random_move
 
     def choose_best_action_from_states(self, env):
-        print("Taking best action...")
+        print("Agent is taking best action...")
         next_best_move, best_state = env.get_next_best_move(self)
         return next_best_move, best_state
 
@@ -116,7 +116,7 @@ class Environment:
         # returns the current state represented as an integer
         # from 0...|S|-1 where S = set of all possible states ie |S| = 3^3, since each box can have three possible values 0(empty), x, o
         # this is like finding the integer represented by a base-3 number
-        state_hash = 0
+        state = 0
         loop_index = 0
         for i in range(3):
             for j in range(3):
@@ -127,9 +127,9 @@ class Environment:
                 else:
                     state_value = 0  # empty
 
-                state_hash += (3 ** loop_index) * state_value
+                state += (3 ** loop_index) * state_value
                 loop_index += 1
-        return state_hash
+        return state
 
     def game_over(self):
         # returns True if any player has won or game is drwa
@@ -224,16 +224,25 @@ class Environment:
         # -------------
         # |   |   | o |
         # -------------
+        def __print(to_print, j):
+            if j == 0:
+                print(f"|  {to_print}  ", end="|")
+            else:
+                print(f"{to_print}  ", end="|")
+
         for i in range(3):
-            print("---------------------")
+            print(" ---------------------")
             for j in range(3):
+                print("  ", end="")
                 if self.board[i, j] == self.x:
-                    print(" x ")
+                    __print('x', j)
                 elif self.board[i, j] == self.o:
-                    print(" o ")
+                    __print('o', j)
                 else:
-                    print("  ")
-        print("---------------------")
+                    __print(' ', j)
+            print("")
+        print(" ---------------------")
+        print("\n")
 
 
 class Human:
@@ -245,41 +254,77 @@ class Human:
         # loop until human make a legal move
         while True:
             try:
-                move = input("Enter box location to make your move in format of i, j ")
+                move = input("Enter box location to make your move in format of i,j : ")
                 i, j = [int(item.strip()) for item in move.split(',')]
                 if env.is_empty(i, j):
                     env.board[i, j] = self.symbol
                     break
+                else:
+                    print("Please enter valid move")
             except:
                 print("Please enter valid move")
+
+
+def get_state_hash_and_winner(env, i=0, j=0):
+    # recursive function that will return all possible states as integer and who the winner is for those states(if any)
+    # (i, j) refers to the next box on the board to permute, we need to try -1, 0, 1
+    results = []
+    for v in [0, env.x, env.o]:
+        env.board[i, j] = v  # if board is empty, it should already be 0
+        if j == 2:
+            # j goes back to 0, increase i, unless i = 2, then we are done
+            if i == 2:
+                # the board is full, collect results and return
+                state = env.get_state()
+                ended = env.game_over()
+                winner = env.winner
+                results.append((state, winner, ended))
+            else:
+                results += get_state_hash_and_winner(env, i + 1, 0)
+        else:
+            # increment j, i stays the same
+            results += get_state_hash_and_winner(env, i, j + 1)
+    return results
 
 
 def play_game(agent, human, env):
     current_player = None  # p1 will start the game always
     # loop until the game is over
-    while not env.game_over():
+    continue_game = True
+    total_game_played = 0
+    while continue_game:
         if current_player == agent:
             current_player = human
         else:
             current_player = agent
 
-        # draw the board before player makes a move
-        env.draw_board()
-
         # current player makes his move
         current_player.take_action(env)
 
         # update state histories
-        state = env.get_state()
-        agent.update_state_history(state)  # p1 will be agent
-        env.draw_board()  # draw updated board again
+        if current_player == agent:
+            state = env.get_state()
+            agent.update_state_history(state)  # p1 will be agent
+            # update value function for agent
+            agent.update(env)
+            env.draw_board()  # draw updated board again
 
-        # update value function for agent
-        agent.update(env)
+        if env.game_over():
+            total_game_played += 1
+            continue_game = False
+            print(f"Game number: {total_game_played}")
+            if env.winner == env.x:
+                print(f"Agent won the game")
+            elif env.winner == env.o:
+                print(f"You won the game")
+            else:
+                print(f"Game is draw")
 
 
 def main():
     print("Starting game...")
+    print("Agent -> x")
+    print("Human -> o")
 
     # initialize empty environment
     env = Environment()
@@ -287,7 +332,8 @@ def main():
     # initialize agent as p1
     agent = Agent()
     agent.set_symbol(env.x)
-    agent.initialize_V(env)
+    state_winner_triples = get_state_hash_and_winner(env)
+    agent.initialize_V(env, state_winner_triples)
 
     # play agent vs human
     human = Human()
