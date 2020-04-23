@@ -8,6 +8,24 @@ class Agent:
         self.verbose = False  # todo ????
         self.state_history = []  # this will be our history which will keep all the states
 
+    def initialize_V(self, env, state_winner_triples):
+        # initialize V
+        # if agent wins, V(s) = 1
+        # if agent loses or draw V(s) = 0
+        # otherwise V(s) = 0.5
+        V = np.zeros(env.num_states)
+        for state, winner, ended in state_winner_triples:
+            if ended:
+                if winner == env.x:
+                    state_value = 1
+                else:
+                    state_value = 0
+            else:
+                state_value = 0.5
+
+            V[state] = state_value
+        self.V = V
+
     def set_value_function(self, V):
         self.V = V
 
@@ -28,7 +46,7 @@ class Agent:
 
     def choose_best_action_from_states(self, env):
         print("Taking best action...")
-        next_best_move, best_state = env.get_next_best_move()
+        next_best_move, best_state = env.get_next_best_move(self)
         return next_best_move, best_state
 
     def get_next_move(self, env):
@@ -38,7 +56,7 @@ class Agent:
         random_number = np.random.rand()  # will give a random float between 0 and 1
         if random_number < self.epsilon:
             # take a random action
-            next_move = self.choose_random_action(env)
+            next_best_move = self.choose_random_action(env)
         else:
             # choose the best action based on current values of states, loop through all values and select the best one
             next_best_move, best_state = self.choose_best_action_from_states(env)
@@ -46,7 +64,6 @@ class Agent:
 
     def take_action(self, env):
         selected_next_move, best_state = self.get_next_move(env)
-
         # make next move
         env.board[selected_next_move[0], selected_next_move[1]] = self.symbol
 
@@ -95,8 +112,26 @@ class Environment:
             is_draw = True
         return is_draw
 
+    def get_state(self):
+        # returns the current state represented as an integer
+        # from 0...|S|-1 where S = set of all possible states ie |S| = 3^3, since each box can have three possible values 0(empty), x, o
+        # this is like finding the integer represented by a base-3 number
+        state_hash = 0
+        loop_index = 0
+        for i in range(3):
+            for j in range(3):
+                if self.board[i, j] == self.x:
+                    state_value = 1
+                elif self.board[i, j] == self.o:
+                    state_value = 2
+                else:
+                    state_value = 0  # empty
+
+                state_hash += (3 ** loop_index) * state_value
+                loop_index += 1
+        return state_hash
+
     def game_over(self):
-        is_game_over = False
         # returns True if any player has won or game is drwa
         if self.ended:  # return True if this environment has ended ie if this game has ended
             return True  # game is over
@@ -130,9 +165,18 @@ class Environment:
                 self.ended = True
                 return True  # game is over
 
+            # top-right -> bottom-left diagonal
+            if np.fliplr(self.board).trace() == player * 3:
+                self.winner = player
+                self.ended = True
+                return True  # game is over
+
         # now that we have checked all the winning conditions and still if there is no winner we check for draw
         # np.all() function Test whether all array elements along a given axis evaluate to True.
-        if np.all((self.board == 0) == False):  # check if all axis sum is not equal to zero todo ????
+        # self.board == 0 this will convert all positions of board to True or False, True if equal to 0 False if not
+        # then we check if there is any value which is false ie which is
+        board_with_true_false = self.board == 0
+        if np.all(board_with_true_false == False):
             # game is draw hence there is no winner
             self.winner = None
             self.ended = True
@@ -141,9 +185,6 @@ class Environment:
         # finally if game is not over
         self.winner = None
         return False
-
-    def get_state(self):
-        pass
 
     def get_empty_moves(self):
         empty_moves = []
@@ -163,9 +204,9 @@ class Environment:
         for i in range(3):
             for j in range(3):
                 if self.is_empty(i, j):
-                    # lets amke this move and check what will be the state if we choose this move ie, (i, j) move, we we will revert it back after getting state
+                    # lets make this move and check what will be the state if we choose this move ie, (i, j) move, we we will revert it back after getting state
                     self.board[i, j] = agent.symbol
-                    state = self.get_state()
+                    state = self.get_state()  # check state after putting temporary move, this is part where we are checking what will happen in future if i make this move
                     self.board[i, j] = 0  # revert back to empty state ie actual state
                     if agent.V[state] > best_value:
                         best_value = agent.V[state]
@@ -173,3 +214,93 @@ class Environment:
                         next_best_move = (i, j)
 
         return next_best_move, best_state
+
+    def draw_board(self):
+        # Example drawn board
+        # -------------
+        # | x |   |   |
+        # -------------
+        # |   |   |   |
+        # -------------
+        # |   |   | o |
+        # -------------
+        for i in range(3):
+            print("---------------------")
+            for j in range(3):
+                if self.board[i, j] == self.x:
+                    print(" x ")
+                elif self.board[i, j] == self.o:
+                    print(" o ")
+                else:
+                    print("  ")
+        print("---------------------")
+
+
+class Human:
+
+    def set_symbol(self, symbol):
+        self.symbol = symbol
+
+    def take_action(self, env):
+        # loop until human make a legal move
+        while True:
+            try:
+                move = input("Enter box location to make your move in format of i, j ")
+                i, j = [int(item.strip()) for item in move.split(',')]
+                if env.is_empty(i, j):
+                    env.board[i, j] = self.symbol
+                    break
+            except:
+                print("Please enter valid move")
+
+
+def play_game(agent, human, env):
+    current_player = None  # p1 will start the game always
+    # loop until the game is over
+    while not env.game_over():
+        if current_player == agent:
+            current_player = human
+        else:
+            current_player = agent
+
+        # draw the board before player makes a move
+        env.draw_board()
+
+        # current player makes his move
+        current_player.take_action(env)
+
+        # update state histories
+        state = env.get_state()
+        agent.update_state_history(state)  # p1 will be agent
+        env.draw_board()  # draw updated board again
+
+        # update value function for agent
+        agent.update(env)
+
+
+def main():
+    print("Starting game...")
+
+    # initialize empty environment
+    env = Environment()
+
+    # initialize agent as p1
+    agent = Agent()
+    agent.set_symbol(env.x)
+    agent.initialize_V(env)
+
+    # play agent vs human
+    human = Human()
+    human.set_symbol(env.o)
+
+    while True:
+        new_env = Environment()
+        play_game(agent, human, env=new_env)
+
+        answer = input("Do you want to play again? [y/n]: ")
+        if answer and answer.lower()[0] == 'n':
+            break
+
+
+if __name__ == '__main__':
+    main()
